@@ -936,8 +936,8 @@ public class Script : ScriptBase
     var fieldType = query.Get("fieldType");
     var customField = new JObject() {
       ["fieldId"] = query.Get("fieldId"),
-	    ["name"] = query.Get("name"),
-	    ["value"] = query.Get("value")
+      ["name"] = query.Get("name"),
+      ["value"] = query.Get("value")
     };
 
     if (fieldType.Equals("Text"))
