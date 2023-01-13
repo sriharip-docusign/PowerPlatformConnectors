@@ -143,6 +143,14 @@
             "type": "string"
           },
           {
+            "name": "envelopeId",
+            "in": "query",
+            "description": "Envelope ID",
+            "x-ms-summary": "Envelope ID",
+            "type": "string",
+            "x-ms-visibility": "advanced"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
@@ -2822,7 +2830,7 @@
           "type": "string",
           "x-ms-summary": "Envelope event",
           "x-ms-visibility": "important"
-        }
+        }      
       }
     },
     "WebhookEnvelopeResponseV3": {

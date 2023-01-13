@@ -1576,6 +1576,25 @@ public class Script : ScriptBase
     {
       var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
       var body = ParseContentAsJObject(content, false);
+
+      var query = HttpUtility.ParseQueryString(this.Context.Request.RequestUri.Query);
+      var envelopeId = query.Get("envelopeId");
+
+      if(envelopeId != null )
+      {
+        if (Guid.TryParse(envelopeId, out var newGuid)) 
+        {
+          if(!body.ToString().Contains(envelopeId))
+          {
+            throw new ConnectorException(HttpStatusCode.BadRequest, "ValidationFailure: EnvelopeId filter " + envelopeId +" did not match.");
+          }
+        }
+        else
+        {
+          throw new ConnectorException(HttpStatusCode.BadRequest, "ValidationFailure: EnvelopeId is not a valid GUID.");
+        }
+      }
+
       response.Headers.Location = new Uri(string.Format(
           "{0}/{1}",
           this.Context.OriginalRequestUri.ToString(),
