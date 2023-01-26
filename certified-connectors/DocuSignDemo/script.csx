@@ -1578,6 +1578,7 @@ public class Script : ScriptBase
 
       var query = HttpUtility.ParseQueryString(this.Context.Request.RequestUri.Query);
       var envelopeId = query.Get("envelopeId");
+      var shouldTrigger = true;
 
       if(envelopeId != null )
       {
@@ -1585,19 +1586,26 @@ public class Script : ScriptBase
         {
           if(!body.ToString().Contains(envelopeId))
           {
-            throw new ConnectorException(HttpStatusCode.BadRequest, "ValidationFailure: EnvelopeId filter " + envelopeId +" did not match.");
+            shouldTrigger = false;
           }
         }
         else
         {
-          throw new ConnectorException(HttpStatusCode.BadRequest, "ValidationFailure: EnvelopeId is not a valid GUID.");
+          shouldTrigger = false;
         }
       }
 
-      response.Headers.Location = new Uri(string.Format(
-          "{0}/{1}",
-          this.Context.OriginalRequestUri.ToString(),
-          body.GetValue("connectId").ToString()));
+      if (shouldTrigger)
+      {
+        response.Headers.Location = new Uri(string.Format(
+            "{0}/{1}",
+            this.Context.OriginalRequestUri.ToString(),
+            body.GetValue("connectId").ToString()));
+      }
+      else
+      {
+        response.Headers.Location = null;
+      }
     }
 
     if ("GenerateEmbeddedSenderURL".Equals(this.Context.OperationId, StringComparison.OrdinalIgnoreCase))
