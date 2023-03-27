@@ -765,6 +765,130 @@
         "x-ms-visibility": "important"
       }
     },
+    "/accounts/{accountId}/envelopes/{envelopeId}/docGenFormFields": {
+      "get": {
+        "tags": [
+          "DocuSign"
+        ],
+        "summary": "Get docgen form fields",
+        "description": "Get the docgen fields from envelope documents.",
+        "operationId": "GetDocgenFormFields",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "Account id",
+            "required": true,
+            "x-ms-summary": "Account",
+            "x-ms-test-value": "insert account id",
+            "x-ms-dynamic-values": {
+              "operationId": "GetLoginAccounts",
+              "value-collection": "loginAccounts",
+              "value-path": "accountIdGuid",
+              "value-title": "name"
+            },
+            "type": "string"
+          },
+          {
+            "name": "envelopeId",
+            "in": "path",
+            "description": "Envelope id",
+            "required": true,
+            "x-ms-summary": "Envelope",
+            "x-ms-test-value": "insert envelope id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "deprecated": false,
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      },
+      "put": {
+        "tags": [
+          "DocuSign"
+        ],
+        "summary": "Merge doc gen form fields",
+        "description": "Merge doc gen form fields.",
+        "operationId": "MergeDocgenFormFields",
+        "x-ms-no-generic-test": true,
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "Account id",
+            "required": true,
+            "x-ms-summary": "Account",
+            "x-ms-test-value": "insert account id",
+            "x-ms-dynamic-values": {
+              "operationId": "GetLoginAccounts",
+              "value-collection": "loginAccounts",
+              "value-path": "accountIdGuid",
+              "value-title": "name"
+            },
+            "type": "string"
+          },
+          {
+            "name": "envelopeId",
+            "in": "path",
+            "description": "Envelope id",
+            "required": true,
+            "x-ms-summary": "Envelope",
+            "x-ms-test-value": "insert envelope id",
+            "type": "string"
+          },
+          {
+            "name": "documentId",
+            "in": "query",
+            "description": "Document Id",
+            "required": true,
+            "x-ms-summary": "Document Id",
+            "x-ms-test-value": "insert document id guid",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CreateEnvelopeResponse"
+            }
+          }
+        },
+        "deprecated": false,
+        "x-ms-visibility": "important"
+      }      
+    },
     "/accounts/{accountId}/envelopes/{envelopeId}/custom_fields": {
       "get": {
         "tags": [
@@ -2581,7 +2705,7 @@
           "StaticResponse"
         ],
         "description": "Identifier for the currently deployed build.",
-        "summary": "Show build Number (For reference only. Do not include in a flow for execution)",
+        "summary": "Show build number (For reference only. Do not include in a flow for execution)",
         "operationId": "BuildNumber",
         "parameters": [
           {

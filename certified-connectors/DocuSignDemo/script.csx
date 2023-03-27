@@ -1339,6 +1339,38 @@ public class Script : ScriptBase
     return body;
   }
 
+  private JObject MergeDocgenFormFieldsBodyTransformation(JObject body)
+  {
+    var newBody = new JObject();
+    var query = HttpUtility.ParseQueryString(this.Context.Request.RequestUri.Query);
+    var documentId = query.Get("documentId");
+    
+    var docGenFormFieldList = new JArray
+    {
+      new JObject
+      {
+        ["label"] = "salary",
+        ["type"] = "TextBox",
+        ["required"] = "True",
+        ["name"] = "salary",
+        ["value"] = "401"
+      },
+    };
+
+    var docGenFormFields = new JArray
+    {
+      new JObject
+      {
+        ["documentId"] = documentId,
+        ["docGenFormFieldList"] = docGenFormFieldList
+      },
+    };
+
+    newBody["docGenFormFields"] = docGenFormFields;
+    
+    return newBody;
+  }  
+
   private async Task UpdateApiEndpoint()
   {
     string content = string.Empty;
@@ -1493,6 +1525,11 @@ public class Script : ScriptBase
     {
       await this.TransformRequestJsonBody(this.AddRecipientTabsBodyTransformation).ConfigureAwait(false);
     }
+
+    if ("MergeDocgenFormFields".Equals(this.Context.OperationId, StringComparison.OrdinalIgnoreCase))
+    {
+      await this.TransformRequestJsonBody(this.MergeDocgenFormFieldsBodyTransformation).ConfigureAwait(false);
+    }    
 
     if ("RemoveRecipientFromEnvelope".Equals(this.Context.OperationId, StringComparison.OrdinalIgnoreCase))
     {
